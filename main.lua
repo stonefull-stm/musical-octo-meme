@@ -56,22 +56,23 @@ function inicializarJogo(dificuldade)
 	end
 
 	-- Sorteia palavras sem repetir
-	-- math.randomseed(os.time())
-	-- local bancoCopia = { unpack(bancoDePalavras) }
-	-- -- Garante uma palavra grande
-	-- local idx = math.random(1, #palavrasGrandes)
-	-- table.insert(palavrasNivel, palavrasGrandes[idx])
-	-- for i = 1, qtdPalavras - 1 do
-	-- 	_ = i
-	-- 	if #bancoCopia == 0 then
-	-- 		break
-	-- 	end
-	-- 	repeat
-	-- 		idx = math.random(1, #bancoCopia)
-	-- 	until bancoCopia[idx] ~= palavrasNivel[1]
-	-- 	local palavra = table.remove(bancoCopia, idx)
-	-- 	table.insert(palavrasNivel, palavra)
-	-- end
+	math.randomseed(os.time())
+	local bancoCopia = { unpack(bancoDePalavras) }
+	-- Garante uma palavra grande
+	palavrasNivel = {}
+	local idx = math.random(1, #palavrasGrandes)
+	table.insert(palavrasNivel, palavrasGrandes[idx])
+	for i = 1, qtdPalavras - 1 do
+		_ = i
+		if #bancoCopia == 0 then
+			break
+		end
+		repeat
+			idx = math.random(1, #bancoCopia)
+		until bancoCopia[idx] ~= palavrasNivel[1]
+		local palavra = table.remove(bancoCopia, idx)
+		table.insert(palavrasNivel, palavra)
+	end
 
 	-- Insere as palavras na grade
 	-- Insere a primeira palavra, horizontalmente no meio da grade
