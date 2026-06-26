@@ -103,7 +103,31 @@ function inicializarJogo(dificuldade)
 				yy = y
 				--podeInserir = true
 				for c = 1, utf8.len(palavrasNivel[ix]) do
+					-- Checa se existe plavra adjacente na esquerda ou direita
 					local celula = grid[y + c - 1][x]
+					if x - 1 > 0 then
+						local celula_esq = grid[y + c - 1][x - 1]
+						if
+							celula_esq.letra ~= nil
+							and celula_esq.idPalavra ~= nil
+							and palavrasAlocadas[celula_esq.idPalavra[1]].direction == "vertical"
+						then
+							podeInserir = false
+							break
+						end
+					end
+					if x + 1 <= TAM_GRID then
+						local celula_dir = grid[y + c - 1][x + 1]
+						if
+							celula_dir.letra ~= nil
+							and celula_dir.idPalavra ~= nil
+							and palavrasAlocadas[celula_dir.idPalavra[1]].direction == "vertical"
+						then
+							podeInserir = false
+							break
+						end
+					end
+					-- Checa se a plavra cruza com outra
 					if celula and celula.letra ~= nil and celula.letra ~= utf8_sub(palavrasNivel[ix], c, c) then
 						podeInserir = false
 						break
@@ -160,7 +184,31 @@ function inicializarJogo(dificuldade)
 				xx = x
 				--podeInserir = true
 				for c = 1, utf8.len(palavrasNivel[ix]) do
+					-- Checa se existe plavra adjacente acima ou abaixo
 					local celula = grid[y][x + c - 1]
+					if y - 1 > 0 then
+						local celula_sup = grid[y - 1][x + c - 1]
+						if
+							celula_sup.letra ~= nil
+							and celula_sup.idPalavra ~= nil
+							and palavrasAlocadas[celula_sup.idPalavra[1]].direction == "horizontal"
+						then
+							podeInserir = false
+							break
+						end
+					end
+					if y + 1 <= TAM_GRID then
+						local celula_inf = grid[y + 1][x + c - 1]
+						if
+							celula_inf.letra ~= nil
+							and celula_inf.idPalavra ~= nil
+							and palavrasAlocadas[celula_inf.idPalavra[1]].direction == "horizontal"
+						then
+							podeInserir = false
+							break
+						end
+					end
+					-- Checa se a palavra cruza com outra
 					if celula and celula.letra ~= nil and celula.letra ~= utf8_sub(palavrasNivel[ix], c, c) then
 						podeInserir = false
 						break
