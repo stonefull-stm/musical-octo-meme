@@ -103,6 +103,23 @@ function inicializarJogo(dificuldade)
 				yy = y
 				--podeInserir = true
 				for c = 1, utf8.len(palavrasNivel[ix]) do
+					-- Checa se existe palavra antes ou depois
+					if c == 1 then
+						if y + c - 2 > 0 then
+							local celula_pri = grid[y + c - 2][x]
+							if celula_pri.letra ~= nil then
+								podeInserir = false
+								break
+							end
+						end
+						if y + utf8.len(palavrasNivel[ix]) <= TAM_GRID then
+							local celula_pos = grid[y + utf8.len(palavrasNivel[ix])][x]
+							if celula_pos.letra ~= nil then
+								podeInserir = false
+								break
+							end
+						end
+					end
 					-- Checa se existe plavra adjacente na esquerda ou direita
 					local celula = grid[y + c - 1][x]
 					if x - 1 > 0 then
@@ -184,6 +201,24 @@ function inicializarJogo(dificuldade)
 				xx = x
 				--podeInserir = true
 				for c = 1, utf8.len(palavrasNivel[ix]) do
+					-- Checa se existe palavra antes ou depois
+					if c == 1 then
+						if x + c - 2 > 0 then
+							local celula_pri = grid[y][x + c - 2]
+							if celula_pri.letra ~= nil then
+								podeInserir = false
+								break
+							end
+						end
+						if x + utf8.len(palavrasNivel[ix]) <= TAM_GRID then
+							local celula_pos = grid[y][x + utf8.len(palavrasNivel[ix])]
+							if celula_pos.letra ~= nil then
+								podeInserir = false
+								break
+							end
+						end
+					end
+
 					-- Checa se existe plavra adjacente acima ou abaixo
 					local celula = grid[y][x + c - 1]
 					if y - 1 > 0 then
