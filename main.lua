@@ -1,6 +1,5 @@
 local utf8 = require("utf8")
-local TAM_GRID = 8
-
+local TAM_GRID = 10
 local grid = {}
 local fonteTitulo = {}
 local fonteGrande = {}
@@ -62,17 +61,18 @@ function inicializarJogo(dificuldade)
 	palavrasNivel = {}
 	local idx = math.random(1, #palavrasGrandes)
 	table.insert(palavrasNivel, palavrasGrandes[idx])
-	for i = 1, qtdPalavras - 1 do
-		_ = i
-		if #bancoCopia == 0 then
-			break
-		end
-		repeat
-			idx = math.random(1, #bancoCopia)
-		until bancoCopia[idx] ~= palavrasNivel[1]
-		local palavra = table.remove(bancoCopia, idx)
-		table.insert(palavrasNivel, palavra)
-	end
+	table.move(bancoCopia, 1, #bancoCopia, #palavrasNivel + 1, palavrasNivel)
+	-- for i = 1, qtdPalavras - 1 do
+	-- 	_ = i
+	-- 	if #bancoCopia == 0 then
+	-- 		break
+	-- 	end
+	-- 	repeat
+	-- 		idx = math.random(1, #bancoCopia)
+	-- 	until bancoCopia[idx] ~= palavrasNivel[1]
+	-- 	local palavra = table.remove(bancoCopia, idx)
+	-- 	table.insert(palavrasNivel, palavra)
+	-- end
 
 	-- Insere as palavras na grade
 	-- Insere a primeira palavra, horizontalmente no meio da grade
@@ -316,7 +316,7 @@ function carregarBancoDePalavras(caminhoDoArquivo)
 			-- Remove espaços em branco extras nas pontas e ignora linhas vazias
 			local palavraLimpa = linha:match("^%s*(.-)%s*$")
 			if palavraLimpa ~= "" then
-				if #palavraLimpa == TAM_GRID then
+				if #palavraLimpa >= 7 then
 					table.insert(palavrasGrandes, palavraLimpa:upper())
 				end
 				table.insert(bancoDePalavras, palavraLimpa:upper()) -- Salva em maiúsculo
