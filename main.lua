@@ -61,6 +61,13 @@ function inicializarJogo(dificuldade)
 	palavrasNivel = {}
 	local idx = math.random(1, #palavrasGrandes)
 	table.insert(palavrasNivel, palavrasGrandes[idx])
+	-- Remove palavra inserida
+	for i, palavra in ipairs(bancoCopia) do
+		if palavra == palavrasNivel[1] then
+			table.remove(bancoCopia, i)
+			break
+		end
+	end
 	table.move(bancoCopia, 1, #bancoCopia, #palavrasNivel + 1, palavrasNivel)
 	-- for i = 1, qtdPalavras - 1 do
 	-- 	_ = i
@@ -99,7 +106,7 @@ function inicializarJogo(dificuldade)
 		-- Checa se pode inserir a palavra na vertical
 		for x = 1, TAM_GRID do
 			xx = x
-			for y = 1, TAM_GRID - utf8.len(palavrasNivel[ix]) do
+			for y = 1, TAM_GRID - utf8.len(palavrasNivel[ix]) + 1 do
 				yy = y
 				--podeInserir = true
 				for c = 1, utf8.len(palavrasNivel[ix]) do
@@ -197,7 +204,7 @@ function inicializarJogo(dificuldade)
 		-- Checa se pode inserir a palavra na horizontal
 		for y = 1, TAM_GRID do
 			yy = y
-			for x = 1, TAM_GRID - utf8.len(palavrasNivel[ix]) do -- Tirei +1 pra testar
+			for x = 1, TAM_GRID - utf8.len(palavrasNivel[ix]) + 1 do
 				xx = x
 				--podeInserir = true
 				for c = 1, utf8.len(palavrasNivel[ix]) do
@@ -316,7 +323,7 @@ function carregarBancoDePalavras(caminhoDoArquivo)
 			-- Remove espaços em branco extras nas pontas e ignora linhas vazias
 			local palavraLimpa = linha:match("^%s*(.-)%s*$")
 			if palavraLimpa ~= "" then
-				if #palavraLimpa >= 7 then
+				if utf8.len(palavraLimpa) >= 7 then
 					table.insert(palavrasGrandes, palavraLimpa:upper())
 				end
 				table.insert(bancoDePalavras, palavraLimpa:upper()) -- Salva em maiúsculo
